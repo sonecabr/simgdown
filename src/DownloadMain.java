@@ -59,6 +59,10 @@ public class DownloadMain {
 			for(Bean bean : jsonList){
 				actualFile = bean.getUrl();
 				String fileName = bean.getUrl().split("/")[bean.getUrl().split("/").length -1];
+				
+				if(!new File(outputFolder).exists()){
+					new File(outputFolder).mkdirs();
+				}
 				File outFile = new File(outputFolder + "/" + fileName);
 				
 				try{
