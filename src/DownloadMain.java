@@ -31,6 +31,11 @@ public class DownloadMain {
 		try{
 			String json = args[0];
 			String outputFolder = args[1];
+			String newUrl = null;
+			if(args.length > 2){
+				newUrl = args[2];
+			}
+			
 			
 			DataInputStream ins = new DataInputStream(new FileInputStream(json));
 			byte[] b = new byte[ins.available()];
@@ -67,10 +72,13 @@ public class DownloadMain {
 					is.close();
 					fileCount++;
 					
-					Bean beanNew = new Bean();
-					beanNew.setId(bean.getId());
-					beanNew.setUrl(outFile.getName());
-					newCollection.add(beanNew);
+					if(newUrl != null){
+						Bean beanNew = new Bean();
+						beanNew.setId(bean.getId());
+						beanNew.setUrl(outFile.getName());
+						newCollection.add(beanNew);
+					}
+					
 					
 					System.out.println("Arquivo baixado : " + url);
 					
@@ -92,17 +100,20 @@ public class DownloadMain {
 				
 			}
 			
-			JSONSerializer serial = new JSONSerializer();
-			String jsonR = serial.exclude("*.class").serialize(newCollection);
+			if(newUrl != null){
+				JSONSerializer serial = new JSONSerializer();
+				String jsonR = serial.exclude("*.class").serialize(newCollection);
+				
+				
+				FileOutputStream fO = new FileOutputStream(new File(outputFolder + "newJson.json"));
+				BufferedOutputStream bfo = new BufferedOutputStream(fO);
+				bfo.write(jsonR.getBytes());
+				bfo.close();
+				fO.close();
+				
+				System.out.println("Novo json gerado em :: " + outputFolder + "newJson.json");
+			}
 			
-			
-			FileOutputStream fO = new FileOutputStream(new File(outputFolder + "newJson.json"));
-			BufferedOutputStream bfo = new BufferedOutputStream(fO);
-			bfo.write(jsonR.getBytes());
-			bfo.close();
-			fO.close();
-			
-			System.out.println("Novo json gerado em :: " + outputFolder + "newJson.json");
 			System.out.println("Processo concluido!");
 			
 		} catch (NullPointerException e){
