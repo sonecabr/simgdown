@@ -8,9 +8,3 @@ Parametros
 Resultado
 
 - Os arquivos contidos no json serao baixados para  a pasta de saida informada  e um novo json contendo as novas urls e gerado
-
-Dependencias: Java 1.6 
-
-HOWTO
-java -jar simplefiledown.jar /home/myuser/test/myjson.json /home/myuser/test/output http://myserver.com/files/
-
