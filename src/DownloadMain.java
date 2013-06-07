@@ -14,6 +14,8 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.filechooser.FileSystemView;
+
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 
@@ -75,7 +77,7 @@ public class DownloadMain {
 					if(newUrl != null){
 						Bean beanNew = new Bean();
 						beanNew.setId(bean.getId());
-						beanNew.setUrl(outFile.getName());
+						beanNew.setUrl((newUrl.endsWith("/") ? newUrl : newUrl +"/") +  outFile.getName());
 						newCollection.add(beanNew);
 					}
 					
@@ -111,7 +113,9 @@ public class DownloadMain {
 				bfo.close();
 				fO.close();
 				
-				System.out.println("Novo json gerado em :: " + outputFolder + "newJson.json");
+				System.out.println("Novo json gerado em :: " + outputFolder + "/newJson.json");
+				System.out.println("\nTotal de arquivos com erro:" + errorCount );
+				System.out.println("\nTotal de arquivos com sucesso:" + fileCount );
 			}
 			
 			System.out.println("Processo concluido!");
