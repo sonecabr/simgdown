@@ -38,6 +38,7 @@ public class DownloadMain {
 				newUrl = args[2];
 			}
 			
+			outputFolder = outputFolder.replace("\\", "/");
 			
 			DataInputStream ins = new DataInputStream(new FileInputStream(json));
 			byte[] b = new byte[ins.available()];
@@ -77,6 +78,7 @@ public class DownloadMain {
 					if(newUrl != null){
 						Bean beanNew = new Bean();
 						beanNew.setId(bean.getId());
+						
 						beanNew.setUrl((newUrl.endsWith("/") ? newUrl : newUrl +"/") +  outFile.getName());
 						newCollection.add(beanNew);
 					}
@@ -107,7 +109,7 @@ public class DownloadMain {
 				String jsonR = serial.exclude("*.class").serialize(newCollection);
 				
 				
-				FileOutputStream fO = new FileOutputStream(new File(outputFolder + "newJson.json"));
+				FileOutputStream fO = new FileOutputStream(new File((outputFolder.endsWith("/") ? outputFolder : outputFolder+"/") + "newJson.json"));
 				BufferedOutputStream bfo = new BufferedOutputStream(fO);
 				bfo.write(jsonR.getBytes());
 				bfo.close();
